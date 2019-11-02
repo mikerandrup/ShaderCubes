@@ -671,6 +671,6 @@ MonoBehaviour:
     type: 3}
   Effector: {fileID: 547780394}
   CubeOffset: {x: 1, y: 1}
-  DensityTexture: {fileID: 2800000, guid: c7e5f7192a28344b39c38bbf0787b6e9, type: 3}
+  DensityTexture: {fileID: 2800000, guid: 9bd1e0b90c16e4d3981230357d74cded, type: 3}
   TextureScale: {x: 1, y: 1}
   TextureSize: {x: 64, y: 64}
