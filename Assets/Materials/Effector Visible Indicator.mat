@@ -47,7 +47,7 @@ Material:
     m_Colors:
     - Color_AB4651CC: {r: 0.16981125, g: 0.14577127, b: 0.13376647, a: 1}
     - Color_AE69D3E0: {r: 1, g: 0.50235635, b: 0, a: 1}
-    - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _BaseColor: {r: 0, g: 0.8259301, b: 1, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!114 &3092039109517240124
 MonoBehaviour:
