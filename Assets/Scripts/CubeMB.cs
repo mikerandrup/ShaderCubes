@@ -13,12 +13,39 @@ public class CubeMB : MonoBehaviour {
     }
 
 
-    public void SetCellWeight(float value) {
+    public float MaxHeight = 10.0f;
+    public void SetCellWeight(float weight01) {
+
+        // just shut off if not affected
+        //if (weight01 <= 0) {
+        //    this.gameObject.SetActive(false);
+        //    return;
+        //}
+
 
         // scale the height accordingly
+        transform.localScale = new Vector3(
+             1.0f,
+             weight01 * MaxHeight,
+             1.0f
+        );
 
-        // pick the appropriate material and assign it
-        // inline material array stuff can be found in config driven runSquish code
+        // assign the material for the weight
+        _meshRenderer.materials = new Material[] { GetMaterialForWeight(weight01) };
+
+    }
+
+    private Material GetMaterialForWeight(float weight) {
+
+        int maxMatIndex = MaterialsSortedByWeight.Length - 1;
+
+        int matIndex = Mathf.RoundToInt(weight * maxMatIndex);
+
+        Debug.Log("Mat index " + matIndex + " for weight " + weight);
+
+        return MaterialsSortedByWeight[
+            matIndex
+        ];
 
     }
 
