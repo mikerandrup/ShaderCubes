@@ -42,8 +42,6 @@ public class CubeMB : MonoBehaviour {
 
         int matIndex = Mathf.RoundToInt(weight * maxMatIndex);
 
-        Debug.Log("Mat index " + matIndex + " for weight " + weight + " is called " + MaterialsSortedByWeight[matIndex].name);
-
         return MaterialsSortedByWeight[
             matIndex
         ];

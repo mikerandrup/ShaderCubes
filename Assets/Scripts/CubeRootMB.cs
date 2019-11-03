@@ -13,30 +13,35 @@ public class CubeRootMB : MonoBehaviour {
     public Vector2 TextureScale = new Vector2(1, 1);
     public int TextureSizeX = 64;
     public int TextureSizeZ = 64;
+    public float ReComputeWeightsDelaySeconds = 0.5f;
 
     private void Start() {
         LoadDensityTexture();
         _effectorMB = Effector.GetComponent<EffectorPointMB>();
         SpawnCubes();
 
-        ReComputeWeights();
+        StartCoroutine(ReComputeWeights());
     }
 
 
-    private void Update() {
-        //ReComputeWeights();
+    IEnumerator ReComputeWeights() {
 
-    }
+        while (true) {
 
-    private void ReComputeWeights() {
-        foreach (CubeMB cube in SpawnedCubes) {
-            var pos = cube.transform.position;
-            cube.SetCellWeight(
-                GetDensityAt(pos)
-            //GetEffectorWeightAt(pos)
-            );
+            foreach (CubeMB cube in SpawnedCubes) {
+                var pos = cube.transform.position;
+                cube.SetCellWeight(
+                    Mathf.Clamp01(
+                        Mathf.Sqrt(
+                            GetDensityAt(pos) * GetEffectorWeightAt(pos)
+                        )
+                    )
+                );
+            }
+            yield return new WaitForSeconds(ReComputeWeightsDelaySeconds);
         }
     }
+
 
     private List<CubeMB> SpawnedCubes;
     private void SpawnCubes() {
@@ -73,7 +78,7 @@ public class CubeRootMB : MonoBehaviour {
         int indexX = (int)(worldPosition.x);
         int indexZ = (int)(worldPosition.z);
 
-        Debug.Log("x, z: " + indexX + ", " + indexZ + " = " + _densities01[indexX, indexZ]);
+        //Debug.Log("x, z: " + indexX + ", " + indexZ + " = " + _densities01[indexX, indexZ]);
 
         return _densities01[indexX, indexZ];
 
