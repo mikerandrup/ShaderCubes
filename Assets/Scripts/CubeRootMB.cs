@@ -12,52 +12,34 @@ public class CubeRootMB : MonoBehaviour {
     public Vector2 CubeOffset = new Vector2(1, 1);
     public Texture2D DensityTexture;
     public Vector2 TextureScale = new Vector2(1, 1);
-    public Vector2 TextureSize = new Vector2(64, 64);
+    public int TextureSizeX = 64;
+    public int TextureSizeY = 64;
 
-
-    float[] _densities01;
-
-    // Start is called before the first frame update
-    void Start() {
-
-
-
-
+    private void Start() {
+        LoadDensityTexture();
     }
 
-    // Update is called once per frame
-    void Update() {
+    public float GetDensityAtWorldPosition(Vector3 worldPosition) {
 
-    }
-
-    private float GetWeightAtPosition(Vector2 position) {
+        // ignoring Y of Vector3 for now
 
         return 0.5f;
 
     }
 
-
-    //private CubeParams[] CalculateCubes(Bounds ) {
-
-
-
-    //}
-
-
+    // The texture-based method is just for prototype,
+    // will use fractal approach instead soon
+    private float[,] _densities01;
     private void LoadDensityTexture() {
 
         Color[] colors = DensityTexture.GetPixels();
 
-        _densities01 = new float[colors.Length];
-        for (int i = 0; i < colors.Length; i++) {
-            _densities01[i] = colors[i].grayscale;
+        _densities01 = new float[TextureSizeX, TextureSizeY];
+        for (int i = 0, x = 0, y = 0; i < colors.Length; i++) {
+            x = i % TextureSizeX;
+            y = i / TextureSizeY;
+            _densities01[x, y] = colors[i].grayscale;
         }
 
     }
-}
-
-public struct CubeParams {
-    float xPos;
-    float zPos;
-    float weight;
 }
