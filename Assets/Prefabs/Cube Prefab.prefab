@@ -100,4 +100,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 14e3205fc52634b0ebc74d30c9aa0278, type: 2}
   - {fileID: 2100000, guid: bbd59c3279a4148ec95a167c9ee4e523, type: 2}
   - {fileID: 2100000, guid: e22eec030c3eb45faa4975a46e8d9994, type: 2}
-  MaxHeight: 10
+  MaxHeight: 20

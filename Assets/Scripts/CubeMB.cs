@@ -10,8 +10,8 @@ public class CubeMB : MonoBehaviour {
 
     public void Awake() {
         _meshRenderer = GetComponent<MeshRenderer>();
+        SetCellWeight(0.0f);
     }
-
 
     public float MaxHeight = 10.0f;
     public void SetCellWeight(float weight01) {
@@ -22,6 +22,7 @@ public class CubeMB : MonoBehaviour {
             return;
         }
 
+        this.gameObject.SetActive(true);
 
         // scale the height accordingly
         transform.localScale = new Vector3(

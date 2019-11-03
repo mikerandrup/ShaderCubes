@@ -20,6 +20,18 @@ public class CubeRootMB : MonoBehaviour {
         SpawnCubes();
     }
 
+
+    private void Update() {
+        foreach (CubeMB cube in SpawnedCubes) {
+            var pos = cube.transform.position;
+            cube.SetCellWeight(
+                GetEffectorWeightAt(pos)
+            // GetDensityAt(pos)
+            );
+        }
+
+    }
+
     private List<CubeMB> SpawnedCubes;
     private void SpawnCubes() {
         SpawnedCubes = new List<CubeMB>();
@@ -41,10 +53,6 @@ public class CubeRootMB : MonoBehaviour {
 
         cubeMB.transform.position = pos;
 
-        cubeMB.SetCellWeight(
-            GetEffectorWeightAt(pos)
-        // GetDensityAt(pos)
-        );
 
         SpawnedCubes.Add(cubeMB);
     }
@@ -89,11 +97,7 @@ public class CubeRootMB : MonoBehaviour {
 
         float effect01 = 1.0f - Mathf.Clamp01(rawDistance / _effectorMB.Radius);
 
-        return effect01;
-
-        //float curvedWeight = 1.0f - _effectorMB.Weight.Evaluate(clampedDistance);
-
-        //return curvedWeight;
+        return _effectorMB.Weight.Evaluate(effect01);
     }
 
     // The texture-based method is just for prototype,
