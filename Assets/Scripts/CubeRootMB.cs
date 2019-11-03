@@ -18,18 +18,24 @@ public class CubeRootMB : MonoBehaviour {
         LoadDensityTexture();
         _effectorMB = Effector.GetComponent<EffectorPointMB>();
         SpawnCubes();
+
+        ReComputeWeights();
     }
 
 
     private void Update() {
+        //ReComputeWeights();
+
+    }
+
+    private void ReComputeWeights() {
         foreach (CubeMB cube in SpawnedCubes) {
             var pos = cube.transform.position;
             cube.SetCellWeight(
-                GetEffectorWeightAt(pos)
-            // GetDensityAt(pos)
+                GetDensityAt(pos)
+            //GetEffectorWeightAt(pos)
             );
         }
-
     }
 
     private List<CubeMB> SpawnedCubes;
@@ -57,24 +63,17 @@ public class CubeRootMB : MonoBehaviour {
         SpawnedCubes.Add(cubeMB);
     }
 
+    private Bounds _textureBounds;
     public float GetDensityAt(Vector3 worldPosition) {
 
-        // 2D for now
-        float minX = 0;
-        float maxX = TextureScale.x * TextureSizeX;
-        float minZ = 0;
-        float maxZ = TextureScale.y * TextureSizeZ;
-
-        Bounds textureBounds = new Bounds(
-            center: new Vector3(maxX / 2, 0, maxZ / 2),
-            size: new Vector3(maxX, 0, maxZ)
-        );
-
-        if (!textureBounds.Contains(worldPosition))
+        // safety check for manually created density texture
+        if (!_textureBounds.Contains(worldPosition))
             return 0.0f;
 
-        int indexX = Mathf.RoundToInt(worldPosition.x / maxX);
-        int indexZ = Mathf.RoundToInt(worldPosition.z / maxZ);
+        int indexX = (int)(worldPosition.x);
+        int indexZ = (int)(worldPosition.z);
+
+        Debug.Log("x, z: " + indexX + ", " + indexZ + " = " + _densities01[indexX, indexZ]);
 
         return _densities01[indexX, indexZ];
 
@@ -104,6 +103,14 @@ public class CubeRootMB : MonoBehaviour {
     // will use fractal approach instead soon
     private float[,] _densities01;
     private void LoadDensityTexture() {
+
+        // Calculate (2D) bounds
+        float maxX = TextureScale.x * TextureSizeX;
+        float maxZ = TextureScale.y * TextureSizeZ;
+        _textureBounds = new Bounds(
+            center: new Vector3(maxX / 2, 0, maxZ / 2),
+            size: new Vector3(maxX, 100, maxZ)
+        );
 
         Color[] colors = DensityTexture.GetPixels();
 
