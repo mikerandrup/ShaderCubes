@@ -42,8 +42,8 @@ public class CubeRootMB : MonoBehaviour {
         cubeMB.transform.position = pos;
 
         cubeMB.SetCellWeight(
-            //GetEffectorWeightAt(pos)
-            GetDensityAt(pos)
+            GetEffectorWeightAt(pos)
+        // GetDensityAt(pos)
         );
 
         SpawnedCubes.Add(cubeMB);

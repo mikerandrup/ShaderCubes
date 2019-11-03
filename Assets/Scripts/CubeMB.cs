@@ -8,7 +8,7 @@ public class CubeMB : MonoBehaviour {
 
     private MeshRenderer _meshRenderer;
 
-    public void Start() {
+    public void Awake() {
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
@@ -16,11 +16,11 @@ public class CubeMB : MonoBehaviour {
     public float MaxHeight = 10.0f;
     public void SetCellWeight(float weight01) {
 
-        // just shut off if not affected
-        //if (weight01 <= 0) {
-        //    this.gameObject.SetActive(false);
-        //    return;
-        //}
+        //just shut off if not affected
+        if (weight01 <= 0) {
+            this.gameObject.SetActive(false);
+            return;
+        }
 
 
         // scale the height accordingly
@@ -41,7 +41,7 @@ public class CubeMB : MonoBehaviour {
 
         int matIndex = Mathf.RoundToInt(weight * maxMatIndex);
 
-        Debug.Log("Mat index " + matIndex + " for weight " + weight);
+        Debug.Log("Mat index " + matIndex + " for weight " + weight + " is called " + MaterialsSortedByWeight[matIndex].name);
 
         return MaterialsSortedByWeight[
             matIndex
