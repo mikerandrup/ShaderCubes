@@ -20,25 +20,33 @@ public class CubeRootMB : MonoBehaviour {
         _effectorMB = Effector.GetComponent<EffectorPointMB>();
         SpawnCubes();
 
-        StartCoroutine(ReComputeWeights());
+        //StartCoroutine(ReComputeWeights());
     }
 
+    private void Update() {
+        PerformReCompute();
+    }
 
     IEnumerator ReComputeWeights() {
 
         while (true) {
 
-            foreach (CubeMB cube in SpawnedCubes) {
-                var pos = cube.transform.position;
-                cube.SetCellWeight(
-                    Mathf.Clamp01(
-                        Mathf.Sqrt(
-                            GetDensityAt(pos) * GetEffectorWeightAt(pos)
-                        )
-                    )
-                );
-            }
+            PerformReCompute();
+
             yield return new WaitForSeconds(ReComputeWeightsDelaySeconds);
+        }
+    }
+
+    private void PerformReCompute() {
+        foreach (CubeMB cube in SpawnedCubes) {
+            var pos = cube.transform.position;
+            cube.SetCellWeight(
+                Mathf.Clamp01(
+                    Mathf.Sqrt(
+                        GetDensityAt(pos) * GetEffectorWeightAt(pos)
+                    )
+                )
+            );
         }
     }
 

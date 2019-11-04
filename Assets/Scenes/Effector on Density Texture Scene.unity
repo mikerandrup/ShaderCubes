@@ -766,4 +766,4 @@ MonoBehaviour:
   TextureScale: {x: 1, y: 1}
   TextureSizeX: 64
   TextureSizeZ: 64
-  ReComputeWeightsDelaySeconds: 0.2
+  ReComputeWeightsDelaySeconds: 0.1

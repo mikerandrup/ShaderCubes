@@ -32,20 +32,24 @@ public class CubeMB : MonoBehaviour {
         );
 
         // assign the material for the weight
-        _meshRenderer.materials = new Material[] { GetMaterialForWeight(weight01) };
+        UpdateMaterial(weight01);
 
     }
 
-    private Material GetMaterialForWeight(float weight) {
+    private int _currentMatIndex = -1;
+    private void UpdateMaterial(float weight) {
 
         int maxMatIndex = MaterialsSortedByWeight.Length - 1;
 
         int matIndex = Mathf.RoundToInt(weight * maxMatIndex);
 
-        return MaterialsSortedByWeight[
-            matIndex
-        ];
-
+        if (matIndex == _currentMatIndex) {
+            return;
+        }
+        else {
+            _currentMatIndex = matIndex;
+            _meshRenderer.materials = new Material[] { MaterialsSortedByWeight[matIndex] };
+        }
     }
 
 
