@@ -37,9 +37,9 @@ public class CubeRootMB : MonoBehaviour {
             var pos = cube.transform.position;
             cube.SetCellWeight(
                 Mathf.Clamp01(
-                    Mathf.Sqrt(
+                        //Mathf.Sqrt(
                         GetDensityAt(pos) * GetEffectorWeightAt(pos)
-                    )
+                //)
                 )
             );
         }
