@@ -92,12 +92,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaterialsSortedByWeight:
-  - {fileID: 2100000, guid: 788894585ed5e4df6a6fd673b93c2d61, type: 2}
-  - {fileID: 2100000, guid: 6746e827e4d594530a1733446dd3d3db, type: 2}
-  - {fileID: 2100000, guid: b89130cf9f9a344cab28bdfb79406883, type: 2}
-  - {fileID: 2100000, guid: 140f4964e069d41a68b7be8c28e4c328, type: 2}
-  - {fileID: 2100000, guid: 72cbe7685862c4b92a359b6abcb08e9c, type: 2}
-  - {fileID: 2100000, guid: 14e3205fc52634b0ebc74d30c9aa0278, type: 2}
-  - {fileID: 2100000, guid: bbd59c3279a4148ec95a167c9ee4e523, type: 2}
-  - {fileID: 2100000, guid: e22eec030c3eb45faa4975a46e8d9994, type: 2}
+  - {fileID: 2100000, guid: e3423172058504b5b853e789175ffa6c, type: 2}
+  - {fileID: 2100000, guid: 3af29e8d20cce49e29d5a359482db4f8, type: 2}
+  - {fileID: 2100000, guid: 423092a5dd4ab40f68d0a7c375a0cbbf, type: 2}
+  - {fileID: 2100000, guid: 14d45d831efd5454b8e93c07f1572787, type: 2}
+  - {fileID: 2100000, guid: ac6493d6497af4078a216a5dc8d597ec, type: 2}
+  - {fileID: 2100000, guid: 2695db3be81204fc4adc1dc7b3d7d692, type: 2}
+  - {fileID: 2100000, guid: 5f18d875fc22a47ffb069a3e5d43a9d9, type: 2}
+  - {fileID: 2100000, guid: 3ee4774dcf3dc49c2b45219e00614f9d, type: 2}
+  - {fileID: 2100000, guid: 2b1b7a297bf524affbd1237d2a02419b, type: 2}
+  - {fileID: 2100000, guid: 004ba9d2755684a4492dbe353d47c145, type: 2}
+  - {fileID: 2100000, guid: 66e345c866e0549fcb62cc20482eb2b7, type: 2}
   MaxHeight: 20
