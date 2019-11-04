@@ -7,34 +7,29 @@ public class CubeRootMB : MonoBehaviour {
     public GameObject CubePrefab;
     public GameObject Effector;
 
-    [Header("Needs to Correspond with Preview Texture")]
     public Vector2 CubeOffset = new Vector2(1, 1);
-    public Texture2D DensityTexture;
-    public Vector2 TextureScale = new Vector2(1, 1);
-    public int TextureSizeX = 64;
-    public int TextureSizeZ = 64;
-    public float ReComputeWeightsDelaySeconds = 0.5f;
+    public Vector2 SimulationScale = new Vector2(1, 1);
+    public int SimulationSizeX = 64;
+    public int SimulationSizeZ = 64;
+
+    [Header("Perlin Density Noise Parameters")]
+    public float Scale = 1.0f;
+    public float Octave2Scale = 5.0f;
+    public float Octave3Scale = 13.0f;
+    public float Octave2Blend = 0.3f;
+    public float Octave3Blend = 0.3f;
+
+    public AnimationCurve DensityWeightCurve = new AnimationCurve(
+        new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1) }
+    );
 
     private void Start() {
-        LoadDensityTexture();
         _effectorMB = Effector.GetComponent<EffectorPointMB>();
         SpawnCubes();
-
-        //StartCoroutine(ReComputeWeights());
     }
 
     private void Update() {
         PerformReCompute();
-    }
-
-    IEnumerator ReComputeWeights() {
-
-        while (true) {
-
-            PerformReCompute();
-
-            yield return new WaitForSeconds(ReComputeWeightsDelaySeconds);
-        }
     }
 
     private void PerformReCompute() {
@@ -50,18 +45,16 @@ public class CubeRootMB : MonoBehaviour {
         }
     }
 
-
     private List<CubeMB> SpawnedCubes;
     private void SpawnCubes() {
         SpawnedCubes = new List<CubeMB>();
 
         // for now, spawn the full grid of them
-        for (float x = CubeOffset.x / 2; x < TextureSizeX * TextureScale.x; x += CubeOffset.x) {
-            for (float z = CubeOffset.y / 2; z < TextureSizeZ * TextureScale.y; z += CubeOffset.y) {
+        for (float x = CubeOffset.x / 2; x < SimulationSizeX * SimulationScale.x; x += CubeOffset.x) {
+            for (float z = CubeOffset.y / 2; z < SimulationSizeZ * SimulationScale.y; z += CubeOffset.y) {
                 Spawn(x, z);
             }
         }
-
 
     }
 
@@ -72,24 +65,12 @@ public class CubeRootMB : MonoBehaviour {
 
         cubeMB.transform.position = pos;
 
-
         SpawnedCubes.Add(cubeMB);
     }
 
     private Bounds _textureBounds;
     public float GetDensityAt(Vector3 worldPosition) {
-
-        // safety check for manually created density texture
-        if (!_textureBounds.Contains(worldPosition))
-            return 0.0f;
-
-        int indexX = (int)(worldPosition.x);
-        int indexZ = (int)(worldPosition.z);
-
-        //Debug.Log("x, z: " + indexX + ", " + indexZ + " = " + _densities01[indexX, indexZ]);
-
-        return _densities01[indexX, indexZ];
-
+        return CalcPerlinDensity(worldPosition);
     }
 
     private EffectorPointMB _effectorMB;
@@ -112,27 +93,28 @@ public class CubeRootMB : MonoBehaviour {
         return _effectorMB.Weight.Evaluate(effect01);
     }
 
-    // The texture-based method is just for prototype,
-    // will use fractal approach instead soon
-    private float[,] _densities01;
-    private void LoadDensityTexture() {
+    private float CalcPerlinDensity(Vector3 worldPos) {
 
-        // Calculate (2D) bounds
-        float maxX = TextureScale.x * TextureSizeX;
-        float maxZ = TextureScale.y * TextureSizeZ;
-        _textureBounds = new Bounds(
-            center: new Vector3(maxX / 2, 0, maxZ / 2),
-            size: new Vector3(maxX, 100, maxZ)
+        float octave1 = GetPerlinOctave(worldPos.x, worldPos.z, 1);
+        float octave2 = GetPerlinOctave(worldPos.x, worldPos.z, Octave2Scale);
+        float octave3 = GetPerlinOctave(worldPos.x, worldPos.z, Octave3Scale);
+
+        float blendedOctaves = DensityWeightCurve.Evaluate(
+            Mathf.Clamp01(
+                (octave1 + octave2 * Octave2Blend + octave3 * Octave3Blend) / (1 + Octave2Blend + Octave3Blend)
+            )
         );
 
-        Color[] colors = DensityTexture.GetPixels();
-
-        _densities01 = new float[TextureSizeX, TextureSizeZ];
-        for (int i = 0, x = 0, z = 0; i < colors.Length; i++) {
-            x = i % TextureSizeX;
-            z = i / TextureSizeZ;
-            _densities01[x, z] = colors[i].grayscale;
-        }
+        return blendedOctaves;
 
     }
+
+    private float GetPerlinOctave(float x, float y, float octaveScale) {
+        float xCoord = x / octaveScale * Scale;
+        float yCoord = y / octaveScale * Scale;
+        float sample = Mathf.PerlinNoise(xCoord, yCoord);
+
+        return sample;
+    }
+
 }
