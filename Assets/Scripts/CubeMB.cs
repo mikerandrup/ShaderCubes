@@ -10,14 +10,15 @@ public class CubeMB : MonoBehaviour {
 
     public void Awake() {
         _meshRenderer = GetComponent<MeshRenderer>();
-        SetCellWeight(0.0f);
+        SetCellWeight(0.0f, 0.0f, 0.0f);
     }
 
-    public float MaxHeight = 10.0f;
-    public void SetCellWeight(float weight01) {
+
+
+    public void SetCellWeight(float weight01, float maxHeight, float zeroThreshold) {
 
         //just shut off if not affected
-        if (weight01 <= 0) {
+        if (weight01 <= zeroThreshold) {
             this.gameObject.SetActive(false);
             return;
         }
@@ -27,7 +28,7 @@ public class CubeMB : MonoBehaviour {
         // scale the height accordingly
         transform.localScale = new Vector3(
              1.0f,
-             weight01 * MaxHeight,
+             weight01 * maxHeight,
              1.0f
         );
 

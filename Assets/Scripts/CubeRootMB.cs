@@ -19,6 +19,14 @@ public class CubeRootMB : MonoBehaviour {
     public float Octave2Blend = 0.3f;
     public float Octave3Blend = 0.3f;
 
+    [Range(-0.5f, 0.5f)]
+    public float PerlinOffset = 0.0f;
+
+    public float MaxCubeHeight = 10.0f;
+
+    [Range(0.0f, 0.1f)]
+    public float ZeroThreshold = 0.0f;
+
     public AnimationCurve DensityWeightCurve = new AnimationCurve(
         new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1) }
     );
@@ -36,11 +44,9 @@ public class CubeRootMB : MonoBehaviour {
         foreach (CubeMB cube in SpawnedCubes) {
             var pos = cube.transform.position;
             cube.SetCellWeight(
-                Mathf.Clamp01(
-                        //Mathf.Sqrt(
-                        GetDensityAt(pos) * GetEffectorWeightAt(pos)
-                //)
-                )
+                GetDensityAt(pos) * GetEffectorWeightAt(pos),
+                MaxCubeHeight,
+                ZeroThreshold
             );
         }
     }
@@ -101,7 +107,8 @@ public class CubeRootMB : MonoBehaviour {
 
         float blendedOctaves = DensityWeightCurve.Evaluate(
             Mathf.Clamp01(
-                (octave1 + octave2 * Octave2Blend + octave3 * Octave3Blend) / (1 + Octave2Blend + Octave3Blend)
+                ((octave1 + octave2 * Octave2Blend + octave3 * Octave3Blend) / (1 + Octave2Blend + Octave3Blend))
+                + PerlinOffset
             )
         );
 

@@ -689,31 +689,34 @@ MonoBehaviour:
   SimulationScale: {x: 1, y: 1}
   SimulationSizeX: 64
   SimulationSizeZ: 64
-  Scale: 0.05
-  Octave2Scale: 3
-  Octave3Scale: 0.59
-  Octave2Blend: 1.34
-  Octave3Blend: 1.75
+  Scale: 0.08
+  Octave2Scale: 0.33
+  Octave3Scale: 1.96
+  Octave2Blend: 0.1
+  Octave3Blend: 0
+  PerlinOffset: -0.183
+  MaxCubeHeight: 40
+  ZeroThreshold: 0.0183
   DensityWeightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0043602
-      value: 1.1617495
-      inSlope: 0.39599863
-      outSlope: 0.39599863
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.06308699
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
