@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Effector on Density Texture Scene.unity
-    guid: 649d6a0636f8848f89793e17a29d26ac
+    path: Assets/Scenes/Shader Cubes VR.unity
+    guid: 84f1ce3d291a54d918e766355df1e490
   m_configObjects: {}
